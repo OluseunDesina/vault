@@ -30,7 +30,6 @@ export class UserService {
   private driverListItems: any[] = [];
   private driverListItemsUpdate = new Subject<any[]>();
   private minderListItems: any[] = [];
-  private minderListItemsUpdate = new Subject<any[]>();
 
   private staffFilterTerm = '';
   private selectedMeal: any;
@@ -205,7 +204,6 @@ export class UserService {
     .subscribe(
       (data) => {
         this.minderListItems = data;
-        this.minderListItemsUpdate.next([...this.minderListItems]);
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
@@ -214,7 +212,7 @@ export class UserService {
   }
 
   getMinderListItemsUpdateListener() {
-    return this.minderListItemsUpdate.asObservable();
+    return this.driverListItemsUpdate.asObservable();
   }
 
   ////////////

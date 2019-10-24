@@ -2,57 +2,53 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class UserService {
   constructor(
     private http: HttpClient,
-    private auth: AuthService,
+    public auth: AuthService,
     ) { }
 
   private appUrl = environment.apiUrl;
 
-  private serviceUrl = 'vault/users/';
+  private serviceUrl: string = 'vault/users/';
   private apiUrl = this.appUrl + this.serviceUrl;
-  private apiItems: any[];
-  private apiProfile: any;
-  private apiStaffItems: any[] = [];
-  private apiStaffStatusItems: any[];
-  private superMerchantStaffItems: any[];
-  private topupSettings: any[] = [];
-  private companyListItems: any[];
-  private isLoaded = false;
-  private staffListIsLoaded = false;
-  private cardID = '';
-  private guardianListItems: any[] = [];
-  private guardianListItemsUpdate = new Subject<any[]>();
-  private driverListItems: any[] = [];
-  private driverListItemsUpdate = new Subject<any[]>();
-  private minderListItems: any[] = [];
-  private minderListItemsUpdate = new Subject<any[]>();
+  public apiItems: any[];
+  public apiProfile: any;
+  public apiStaffItems: any[] = [];
+  public apiStaffStatusItems: any[];
+  public superMerchantStaffItems: any[];
+  public topupSettings: any[] = [];
+  public companyListItems: any[];
+  public isLoaded = false;
+  public staffListIsLoaded = false;
+  public cardID = '';
+  public guardianListItems: any[] = [];
+  public driverListItems: any[] = [];
+  public minderListItems: any[] = [];
 
-  private staffFilterTerm = '';
-  private selectedMeal: any;
-  private selectedStaffMember: any;
-  private isComp = false;
-  private currentUserID = Number(localStorage.getItem('user_id'));
-  private currentProfileID = localStorage.getItem('user_id');
-  private currentUsername = localStorage.getItem('username');
-  private staffCount = 0;
-  private userCount = 0;
-  private isUploading = false;
+  public staffFilterTerm = '';
+  public selectedMeal: any;
+  public selectedStaffMember: any;
+  public isComp = false;
+  public currentUserID = Number(localStorage.getItem('user_id'));
+  public currentProfileID = localStorage.getItem('user_id');
+  public currentUsername = localStorage.getItem('username');
+  public staffCount = 0;
+  public userCount = 0;
+  public isUploading = false;
 
 
 
-  private selectedAgent: any = {};
-  private agentSelected = false;
-  private agentList: any[] = [];
-  private agentTasks: any[] = [];
-  private agentTransactions: any[] = [];
-  private agentVisitedLocations: any[] = [];
+  public selectedAgent: any = {};
+  public agentSelected: boolean = false;
+  public agentList: any[] = [];
+  public agentTasks: any[] = [];
+  public agentTransactions: any[] = [];
+  public agentVisitedLocations: any[] = [];
 
-  private mockAgentList: any[] = [
+  public mockAgentList: any[] = [
     {
       id: 1,
       firstname: 'John',
@@ -64,8 +60,7 @@ export class UserService {
       sex: 'Male',
       tasks: [
         {
-          id: 1,
-          name: 'Meeting With CEO',
+          id: 1, name: 'Meeting With CEO',
           location_name: 'Guarantee Trust Bank - Victoria Island',
           description: 'Meet with the Noah Okunnu to discuss project developments',
           coordinates: {
@@ -84,62 +79,31 @@ export class UserService {
           }
         },
         {
-          id: 3,
-          name: 'Proposal to CFO',
-          location_name: 'Access Bank - Awolowo 2',
-          description: 'Meet with the Fatima Omar to propose a new project',
-          coordinates: {
-            lat: 6.442637421864779,
-            lng: 3.416696673058823
-          }
+          id: 3, name: 'Proposal to CFO', location_name: 'Access Bank - Awolowo 2',
+          description: 'Meet with the Fatima Omar to propose a new project', coordinates: { lat: 6.442637421864779, lng: 3.416696673058823 }
         },
       ]
     },
     {
-      id: 2,
-      firstname: 'Jason',
-      lastname: 'Dough',
-      email: 'jasondoe@email.com',
-      image: 'assets/img/avatars/john-doe-2.jpg',
-      address: '10 Doe Avenue',
-      phone: '02789411344',
-      sex: 'Male',
+      id: 2, firstname: 'Jason', lastname: 'Dough', email: 'jasondoe@email.com', image: 'assets/img/avatars/john-doe-2.jpg', address: '10 Doe Avenue', phone: '02789411344', sex: 'Male',
       tasks: [
         {
-          id: 1,
-          name: 'Meeting with CFO',
-          location_name: 'Diamond Bank',
-          description: 'Meet with the James Eneh',
-          coordinates: {
-            lat: 6.442063991497767,
-            lng: 3.4159648418426514
-          }
+          id: 1, name: 'Meeting with CFO', location_name: 'Diamond Bank',
+          description: 'Meet with the James Eneh', coordinates: { lat: 6.442063991497767, lng: 3.4159648418426514 }
         },
         {
-          id: 2,
-          name: 'Meeting with Marketing',
-          location_name: 'Access Bank - Awolowo 2',
-          description: 'Meet with Chioma Mbanigo',
-          coordinates: {
-            lat: 6.442637421864779,
-            lng: 3.416696673058823
-          }
+          id: 2, name: 'Meeting with Marketing', location_name: 'Access Bank - Awolowo 2',
+          description: 'Meet with Chioma Mbanigo', coordinates: { lat: 6.442637421864779, lng: 3.416696673058823 }
         },
         {
-          id: 3,
-          name: 'Meet with CEO',
-          location_name: 'Zenith Bank - Victoria Island Head Office',
-          description: 'Meet with Adeola Fafunwa to work on the latest project.',
-          coordinates: {
-            lat: 6.430752446659954,
-            lng: 3.43546986579895
-          }
+          id: 3, name: 'Meet with CEO', location_name: 'Zenith Bank - Victoria Island Head Office',
+          description: 'Meet with Adeola Fafunwa to work on the latest project.', coordinates: { lat: 6.430752446659954, lng: 3.43546986579895 }
         },
       ]
     },
   ];
 
-  private mockStaff: any[] = [
+  public mockStaff: any[] = [
     {
       id: 1,
       firstname: 'Farouk',
@@ -155,96 +119,39 @@ export class UserService {
 
 
 
-  getDriverItems() {
-    return this.http.get<any[]>(`${this.appUrl}vault/driver/`);
-  }
+  getDriverItems() { return this.http.get<any[]>(`${this.appUrl}vault/driver/`); }
 
   getDriverListItems() {
-    return this.getDriverItems()
-    .subscribe(
-      (data) => {
-        this.driverListItems = data;
-        this.driverListItemsUpdate.next([...this.driverListItems]);
-      }, (err: any) => {
-        switch (err.status) {
-          case 401: { this.auth.refreshJWT(); break; }
-        }
-      });
+    return this.getDriverItems().subscribe(
+      (data) => { this.driverListItems = data; }, (err: any) => { switch (err.status) { case 401: { this.auth.refreshJWT(); break; } } });
   }
 
-  getDriverListItemsUpdateListener() {
-    return this.driverListItemsUpdate.asObservable();
-  }
-
-  getGuardianItems() {
-    return this.http.get<any[]>(`${this.appUrl}vault/guardian/`);
-  }
+  getGuardianItems() { return this.http.get<any[]>(`${this.appUrl}vault/guardian/`); }
 
   getGuardianListItems() {
     return this.getMinderItems().subscribe(
-      (data) => {
-        this.guardianListItems = data;
-        this.guardianListItemsUpdate.next([...this.guardianListItems]);
-      }, (err: any) => {
-        switch (err.status) {
-          case 401: { this.auth.refreshJWT(); break; }
-        }
-      });
+      (data) => { this.driverListItems = data; }, (err: any) => { switch (err.status) { case 401: { this.auth.refreshJWT(); break; } } });
   }
 
-  getGuardianListItemsUpdateListener() {
-    return this.guardianListItemsUpdate.asObservable();
-  }
-
-  getMinderItems() {
-    return this.http.get<any[]>(`${this.appUrl}vault/minder/`);
-  }
+  getMinderItems() { return this.http.get<any[]>(`${this.appUrl}vault/minder/`); }
 
   getMinderListItems() {
-    return this.getMinderItems()
-    .subscribe(
-      (data) => {
-        this.minderListItems = data;
-        this.minderListItemsUpdate.next([...this.minderListItems]);
-      }, (err: any) => {
-        switch (err.status) {
-          case 401: { this.auth.refreshJWT(); break; }
-        }
-      });
-  }
-
-  getMinderListItemsUpdateListener() {
-    return this.minderListItemsUpdate.asObservable();
+    return this.getMinderItems().subscribe(
+      (data) => { this.minderListItems = data; }, (err: any) => { switch (err.status) { case 401: { this.auth.refreshJWT(); break; } } });
   }
 
   ////////////
-  getCompanyNameFromList(id) {
-    try {
-      return this.companyListItems.find(i => i.id === id).name;
-    }
-    catch { }
-  }
+  getCompanyNameFromList(id) { try { return this.companyListItems.find(i => i.id === id).name; } catch { } }
 
-  filterBy(property) {
-    if (property === 'all') {
-      this.staffFilterTerm = '';
-    } else {
-      this.staffFilterTerm = property;
-    }
-  }
+  filterBy(property) { if (property === 'all') { this.staffFilterTerm = ''; } else { this.staffFilterTerm = property; } }
 
   addFunds(amount, userID): any {
     this.isUploading = true;
-    return this.http
-    .post(`${this.appUrl}vault/topup/staff/`, { user_id: userID, amount: amount })
-    .subscribe(
-      (res) => {
-        this.isUploading = false;
-        this.getStaffItems();
-        alert('Balance was successfully updated.'); },
+    return this.http.post(`${this.appUrl}vault/topup/staff/`, { user_id: userID, amount: amount }).subscribe(
+      (res) => { this.isUploading = false; this.getStaffItems(); alert('Balance was successfully updated.'); },
       (err: any) => {
         this.isUploading = false;
-        // this.auth.getGeneralErrorMessages(err);
+        this.auth.getGeneralErrorMessages(err);
       }
     );
   }
@@ -258,13 +165,13 @@ export class UserService {
         // this.topupSettings = data;
         // alert('Balance was successfully updated.');
         // this.selectedStaffMember.balance = newFunds;
-        //// console.log(res);
+        ////console.log(res);
       },
       (err: any) => {
         this.isUploading = false;
-        // console.log(err);
+        //console.log(err);
         switch (err.status) {
-          // case 400: { this.errorMessage = this.defaultErrorMessage; }
+          //case 400: { this.errorMessage = this.defaultErrorMessage; }
           case 401: { this.auth.refreshJWT(); break; }
         }
       }
@@ -272,14 +179,14 @@ export class UserService {
   }
 
   setTopupSettings(amount, userID): any {
-    const topupSetting = {
+    let topupSetting = {
       amount_added: amount,
       user_id: userID,
     };
 
     try {
       if (this.topupSettings.find(i => i.user_id === topupSetting.user_id)) {
-        // console.log('condition satisfied');
+        //console.log('condition satisfied');
         this.topupSettings.find(i => i.amount_added === topupSetting.amount_added).amount_added = topupSetting.amount_added;
         // this.topupSettings.find(i => i.food_name === topupSetting.food_name).total += topupSetting.total;
       } else {
@@ -290,12 +197,12 @@ export class UserService {
       //   this.topupSettingsTotal += this.topupSettings[i].total
       // }
       console.log(this.topupSettings);
-      localStorage.removeItem('buccaTopupSettings');
-      localStorage.setItem('buccaTopupSettings', JSON.stringify(this.topupSettings));
+      this.cookieService.delete('buccaTopupSettings');
+      this.cookieService.set('buccaTopupSettings', JSON.stringify(this.topupSettings));
       // alert('' + topupSetting.quantity + ' unit(s) of ' + topupSetting.food_name + ' added to basket.');
       // addToCartForm.reset();
     } catch (err) {
-      // console.log(err);
+      //console.log(err);
     }
 
     this.topupSettings.push(topupSetting);
@@ -306,17 +213,17 @@ export class UserService {
     return this.http.post(`${this.appUrl}vault/bulktopup/`, this.topupSettings).subscribe(
       (data) => {
         this.isUploading = false;
-        // console.log(res);
+        //console.log(res);
         this.getStaffItems();
         alert('Balance was successfully updated.');
         // this.selectedStaffMember.balance = newFunds;
-        //// console.log(res);
+        ////console.log(res);
       },
       (err: any) => {
         this.isUploading = false;
-        // console.log(err);
+        //console.log(err);
         switch (err.status) {
-          // case 400: { this.errorMessage = this.defaultErrorMessage; }
+          //case 400: { this.errorMessage = this.defaultErrorMessage; }
           case 401: { this.auth.refreshJWT(); break; }
         }
       }
@@ -325,8 +232,7 @@ export class UserService {
 
   addPaystackFunds(amount, paystackRef): any {
     this.currentUserID = Number(localStorage.getItem('user_id'));
-    return this.http.post(`${this.appUrl}vault/topup/personal/`, { user_id: this.currentUserID, amount: amount, ref_no: paystackRef })
-    .subscribe(
+    return this.http.post(`${this.appUrl}vault/topup/personal/`, { user_id: this.currentUserID, amount: amount, ref_no: paystackRef }).subscribe(
       (res) => { },
       (err: any) => { switch (err.status) { case 401: { this.auth.refreshJWT(); break; } } }
     );
@@ -390,7 +296,7 @@ export class UserService {
     return this.http.post(`${this.appUrl}vault/activate/user/`, { user_id: user }).subscribe(
       (res) => { this.getStaffStatusItems(); alert(firstname + ' ' + lastname + ' successfully activated'); },
       (err: any) => {
-        // this.auth.getGeneralErrorMessages(err);
+        this.auth.getGeneralErrorMessages(err);
       }
     );
   }
@@ -398,12 +304,12 @@ export class UserService {
   deactivateUser(user, firstname, lastname) {
     return this.http.post(`${this.appUrl}vault/deactivate/user/`, { user_id: user }).subscribe(
       (res) => {
-        // console.log(res);
+        //console.log(res);
         this.getStaffStatusItems();
         alert(firstname + ' ' + lastname + ' successfully deactivated');
       },
       (err: any) => {
-        // this.auth.getGeneralErrorMessages(err);
+        this.auth.getGeneralErrorMessages(err);
       }
     );
   }
@@ -420,7 +326,6 @@ export class UserService {
   }
 
   getCompanyList() { return this.http.get<any[]>(`${this.appUrl}vault/company/`); }
-
   getCompanyListItems() {
     return this.getCompanyList().subscribe(
       (data) => { this.companyListItems = data; }, (err: any) => { switch (err.status) { case 401: { this.auth.refreshJWT(); break; } } } );
@@ -436,42 +341,45 @@ export class UserService {
 
   displayStaff(staff) { this.selectedStaffMember = staff; }
 
-  getAllItems() {
+
+
+
+  public getAllItems() {
 
   }
 
 
-  getAgentListData() {
+  public getAgentListData() {
 
   }
 
-  getAgentListItems() {
+  public getAgentListItems() {
     this.agentList = this.mockAgentList;
     return this.agentList;
   }
 
-  getAgentTaskData() {
+  public getAgentTaskData() {
 
   }
 
-  getAgentTaskList(agent) {
+  public getAgentTaskList(agent) {
     this.agentTasks = agent.tasks;
     return this.agentTasks;
   }
 
-  getAgentTaskCount() {
-    // return this.agentTasks;
+  public getAgentTaskCount() {
+    //return this.agentTasks;
   }
 
-  getAgentVisitedLocations() {
+  public getAgentVisitedLocations() {
     return this.agentVisitedLocations;
   }
 
-  getAgentTransactionListData() {
+  public getAgentTransactionListData() {
 
   }
 
-  getAgentTransactionListItems() {
+  public getAgentTransactionListItems() {
 
   }
 

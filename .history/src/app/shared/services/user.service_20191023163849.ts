@@ -26,11 +26,9 @@ export class UserService {
   private staffListIsLoaded = false;
   private cardID = '';
   private guardianListItems: any[] = [];
-  private guardianListItemsUpdate = new Subject<any[]>();
   private driverListItems: any[] = [];
   private driverListItemsUpdate = new Subject<any[]>();
   private minderListItems: any[] = [];
-  private minderListItemsUpdate = new Subject<any[]>();
 
   private staffFilterTerm = '';
   private selectedMeal: any;
@@ -183,8 +181,7 @@ export class UserService {
   getGuardianListItems() {
     return this.getMinderItems().subscribe(
       (data) => {
-        this.guardianListItems = data;
-        this.guardianListItemsUpdate.next([...this.guardianListItems]);
+        this.driverListItems = data;
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
@@ -193,7 +190,7 @@ export class UserService {
   }
 
   getGuardianListItemsUpdateListener() {
-    return this.guardianListItemsUpdate.asObservable();
+    return this.driverListItemsUpdate.asObservable();
   }
 
   getMinderItems() {
@@ -205,7 +202,6 @@ export class UserService {
     .subscribe(
       (data) => {
         this.minderListItems = data;
-        this.minderListItemsUpdate.next([...this.minderListItems]);
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
@@ -214,7 +210,7 @@ export class UserService {
   }
 
   getMinderListItemsUpdateListener() {
-    return this.minderListItemsUpdate.asObservable();
+    return this.driverListItemsUpdate.asObservable();
   }
 
   ////////////

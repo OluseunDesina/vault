@@ -2,57 +2,53 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class UserService {
   constructor(
     private http: HttpClient,
-    private auth: AuthService,
+    public auth: AuthService,
     ) { }
 
   private appUrl = environment.apiUrl;
 
   private serviceUrl = 'vault/users/';
   private apiUrl = this.appUrl + this.serviceUrl;
-  private apiItems: any[];
-  private apiProfile: any;
-  private apiStaffItems: any[] = [];
-  private apiStaffStatusItems: any[];
-  private superMerchantStaffItems: any[];
-  private topupSettings: any[] = [];
-  private companyListItems: any[];
-  private isLoaded = false;
-  private staffListIsLoaded = false;
-  private cardID = '';
-  private guardianListItems: any[] = [];
-  private guardianListItemsUpdate = new Subject<any[]>();
-  private driverListItems: any[] = [];
-  private driverListItemsUpdate = new Subject<any[]>();
-  private minderListItems: any[] = [];
-  private minderListItemsUpdate = new Subject<any[]>();
+  public apiItems: any[];
+  public apiProfile: any;
+  public apiStaffItems: any[] = [];
+  public apiStaffStatusItems: any[];
+  public superMerchantStaffItems: any[];
+  public topupSettings: any[] = [];
+  public companyListItems: any[];
+  public isLoaded = false;
+  public staffListIsLoaded = false;
+  public cardID = '';
+  public guardianListItems: any[] = [];
+  public driverListItems: any[] = [];
+  public minderListItems: any[] = [];
 
-  private staffFilterTerm = '';
-  private selectedMeal: any;
-  private selectedStaffMember: any;
-  private isComp = false;
-  private currentUserID = Number(localStorage.getItem('user_id'));
-  private currentProfileID = localStorage.getItem('user_id');
-  private currentUsername = localStorage.getItem('username');
-  private staffCount = 0;
-  private userCount = 0;
-  private isUploading = false;
+  public staffFilterTerm = '';
+  public selectedMeal: any;
+  public selectedStaffMember: any;
+  public isComp = false;
+  public currentUserID = Number(localStorage.getItem('user_id'));
+  public currentProfileID = localStorage.getItem('user_id');
+  public currentUsername = localStorage.getItem('username');
+  public staffCount = 0;
+  public userCount = 0;
+  public isUploading = false;
 
 
 
-  private selectedAgent: any = {};
-  private agentSelected = false;
-  private agentList: any[] = [];
-  private agentTasks: any[] = [];
-  private agentTransactions: any[] = [];
-  private agentVisitedLocations: any[] = [];
+  public selectedAgent: any = {};
+  public agentSelected = false;
+  public agentList: any[] = [];
+  public agentTasks: any[] = [];
+  public agentTransactions: any[] = [];
+  public agentVisitedLocations: any[] = [];
 
-  private mockAgentList: any[] = [
+  public mockAgentList: any[] = [
     {
       id: 1,
       firstname: 'John',
@@ -139,7 +135,7 @@ export class UserService {
     },
   ];
 
-  private mockStaff: any[] = [
+  public mockStaff: any[] = [
     {
       id: 1,
       firstname: 'Farouk',
@@ -164,16 +160,11 @@ export class UserService {
     .subscribe(
       (data) => {
         this.driverListItems = data;
-        this.driverListItemsUpdate.next([...this.driverListItems]);
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
         }
       });
-  }
-
-  getDriverListItemsUpdateListener() {
-    return this.driverListItemsUpdate.asObservable();
   }
 
   getGuardianItems() {
@@ -183,17 +174,12 @@ export class UserService {
   getGuardianListItems() {
     return this.getMinderItems().subscribe(
       (data) => {
-        this.guardianListItems = data;
-        this.guardianListItemsUpdate.next([...this.guardianListItems]);
+        this.driverListItems = data;
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
         }
       });
-  }
-
-  getGuardianListItemsUpdateListener() {
-    return this.guardianListItemsUpdate.asObservable();
   }
 
   getMinderItems() {
@@ -205,16 +191,11 @@ export class UserService {
     .subscribe(
       (data) => {
         this.minderListItems = data;
-        this.minderListItemsUpdate.next([...this.minderListItems]);
       }, (err: any) => {
         switch (err.status) {
           case 401: { this.auth.refreshJWT(); break; }
         }
       });
-  }
-
-  getMinderListItemsUpdateListener() {
-    return this.minderListItemsUpdate.asObservable();
   }
 
   ////////////
@@ -436,42 +417,42 @@ export class UserService {
 
   displayStaff(staff) { this.selectedStaffMember = staff; }
 
-  getAllItems() {
+  public getAllItems() {
 
   }
 
 
-  getAgentListData() {
+  public getAgentListData() {
 
   }
 
-  getAgentListItems() {
+  public getAgentListItems() {
     this.agentList = this.mockAgentList;
     return this.agentList;
   }
 
-  getAgentTaskData() {
+  public getAgentTaskData() {
 
   }
 
-  getAgentTaskList(agent) {
+  public getAgentTaskList(agent) {
     this.agentTasks = agent.tasks;
     return this.agentTasks;
   }
 
-  getAgentTaskCount() {
+  public getAgentTaskCount() {
     // return this.agentTasks;
   }
 
-  getAgentVisitedLocations() {
+  public getAgentVisitedLocations() {
     return this.agentVisitedLocations;
   }
 
-  getAgentTransactionListData() {
+  public getAgentTransactionListData() {
 
   }
 
-  getAgentTransactionListItems() {
+  public getAgentTransactionListItems() {
 
   }
 
